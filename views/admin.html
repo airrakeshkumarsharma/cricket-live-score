@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<body>
+<body onload="retriv_last_data()">
 
   <!-- Side Navigation -->
 
@@ -51,7 +51,7 @@
         <p>AUS : <b>RUN (not yet played) </b></p>
         
         <p>
-          IND : <b> 201-3 (12.5 Over) </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          IND : <b id="run"> 0 </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button id="scoreincrease" onclick="scoreincrease(0)"><b> 0 </b></button>
           <button id="scoreincrease" onclick="scoreincrease(1)"><b> 1 </b></button>
           <button id="scoreincrease" onclick="scoreincrease(2)"><b> 2 </b></button>
@@ -60,7 +60,7 @@
           <button id="scoreincrease" onclick="scoreincrease(6)"><b> 6 </b></button>
           <div id="runupdate"></div>
         </p>
-        <p>OVER : <b> 12.3</b> 
+        <p>OVER : <b id="over"> </b> 
           <button id = "1b" onclick="overFuntion(0)"><b>1b</b></button>
           <button id = "wide" onclick="overFuntion(-1)"><b>wide</b></button>
           <button id = "No_ball" onclick="overFuntion(-2)"><b>No ball</b></button>
@@ -82,7 +82,7 @@
   </div>
 
 
-  <!-- Script start -->
+  <!-- Script start without data validation -->
   <script type="text/javascript">
       function scoreincrease(scrore){
         $.ajax({
@@ -91,23 +91,53 @@
           data : { "score": scrore },
           success: function(data){
             // alert(data);
-            // $("#runupdate").show(1000);
+            $("#runupdate").show(2000);
             $("#runupdate").html(data);
-            $("#runupdate").hide(1000);
+            $("#runupdate").hide(2000);
           }
         })
       }
 
       function overFuntion(ball){
         $.ajax({
-          url : 'over_update', //score update url
+          url : 'over_update', //over update url
           type : 'post',
           data : { "ball": ball },
           success: function(data){
-            $("#overupdate").html("<i class='fa fa-check' aria-hidden='true'></i>");
-            $("#overupdate").hide(500);
+            $("#overupdate").show(2000);
+            $("#overupdate").html(data);
+            $("#overupdate").hide(2000);
           }
         })
+      }
+
+
+      // script to retrive the data
+      function retrive_over(){
+        $.ajax({
+          url : 'retriveover', //over update url
+          type : 'get',
+          success: function(data){
+            // var data = JSON.stringify(data);
+            $("#over").html(data);
+          }
+
+        })
+       setTimeout(retriv_last_data, 3000)
+      }
+      function retriv_last_data(){
+        $.ajax({
+          url : 'retrivlast', //over update url
+          type : 'get',
+          success: function(data){
+            var jsondata = JSON.stringify(data);
+            var docs = JSON.parse(jsondata);
+            $("#run").html(docs.total_run+ " (This ball "+ docs.newrun+" run)");
+
+
+          }
+        });
+        retrive_over();
       }
   </script>
 </body>

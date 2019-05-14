@@ -42,7 +42,7 @@ router.post('/score_update', function(req, res){
                         res.send(err);
                     }
                     else{
-                        res.send('run is updated');
+                        res.send('Run is updated');
                     }
                  })
                 }
@@ -77,9 +77,10 @@ router.post('/over_update', function(req, res){
             }
             else{
                 total_run = doc.total_run; //take the run add
+                new_run = doc.newrun;
                 data = {
                     team : "IND",
-                    newrun : 0,
+                    newrun : new_run,
                     total_run : total_run+extra_run,
                     extra : ball
                 };
@@ -98,5 +99,37 @@ router.post('/over_update', function(req, res){
         throw new Error('Some thing went wrong')
     }
     
+});
+
+
+
+
+// ========================================Data retrival =========================
+router.get("/retriveover", function(req, res){
+    scoreCollection.count({extra : 0}, function(err, result){
+        if(err){
+            console.log(err);
+        }
+        else{
+            over = parseInt(result / 6);
+            ball = result % 6;
+            total_over = over+"."+ball;
+            res.send(total_over);
+                     
+        }
+    });
+});
+router.get("/retrivlast", function(req, res){
+   scoreCollection.findOne({},{ sort: { _id: -1 } }, function(err, data){
+    if(err)
+    {
+        console.log(err);
+    }
+    else
+    {
+        console.log(data);
+        res.send(data);
+    }
+});  
 });
 module.exports = router;
