@@ -85,12 +85,24 @@
   <script type="text/javascript">
       function scoreincrease(scrore){
         $.ajax({
-          
+          url : 'score_update', //score update url
+          type : 'post',
+          data : { "score": scrore },
+          success: function(data){
+            alert(data);
+          }
         })
       }
 
       function overFuntion(ball){
-        alert(ball);
+        $.ajax({
+          url : 'over_update', //score update url
+          type : 'post',
+          data : { "ball": ball },
+          success: function(data){
+            alert(data);
+          }
+        })
       }
   </script>
 </body>
