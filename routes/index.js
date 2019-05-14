@@ -42,7 +42,7 @@ router.post('/score_update', function(req, res){
                         res.send(err);
                     }
                     else{
-                        console.log('done');
+                        res.send('run is updated');
                     }
                  })
                 }
@@ -90,7 +90,7 @@ router.post('/over_update', function(req, res){
                         console.log(err);
                     }
                     else{
-                        console.log(result);
+                        res.send('over is updated');
                     }
                 });
             }
