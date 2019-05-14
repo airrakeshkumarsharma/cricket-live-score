@@ -58,13 +58,13 @@
           <button id="scoreincrease" onclick="scoreincrease(3)"><b> 3 </b></button>
           <button id="scoreincrease" onclick="scoreincrease(4)"><b> 4 </b></button>
           <button id="scoreincrease" onclick="scoreincrease(6)"><b> 6 </b></button>
-
+          <div id="runupdate"></div>
         </p>
         <p>OVER : <b> 12.3</b> 
           <button id = "1b" onclick="overFuntion(0)"><b>1b</b></button>
           <button id = "wide" onclick="overFuntion(-1)"><b>wide</b></button>
           <button id = "No_ball" onclick="overFuntion(-2)"><b>No ball</b></button>
-          
+          <div id="overupdate"></div>
         </p>
         
       </div>
@@ -90,7 +90,10 @@
           type : 'post',
           data : { "score": scrore },
           success: function(data){
-            alert(data);
+            // alert(data);
+            // $("#runupdate").show(1000);
+            $("#runupdate").html(data);
+            $("#runupdate").hide(1000);
           }
         })
       }
@@ -101,7 +104,8 @@
           type : 'post',
           data : { "ball": ball },
           success: function(data){
-            alert(data);
+            $("#overupdate").html("<i class='fa fa-check' aria-hidden='true'></i>");
+            $("#overupdate").hide(500);
           }
         })
       }

@@ -35,7 +35,7 @@ router.post('/score_update', function(req, res){
                     newrun : score,
                     total_run : total_run+score 
                 };
-                console.log(data);
+                // console.log(data);
                  // insert the data into the database
                  scoreCollection.insert(data, function(err, msg){
                     if(err){
@@ -70,12 +70,10 @@ router.post('/over_update', function(req, res){
             break;
             case -2:  //No ball
             extra_run = 1;
-            default:
-            res.send("DATA is invalid");
         }
         scoreCollection.findOne({},{ sort: { _id: -1 } }, function(err, doc){
             if(err){
-                res.send("Error is " + err);
+               console.log("Error is " + err);
             }
             else{
                 total_run = doc.total_run; //take the run add
