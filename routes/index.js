@@ -57,7 +57,7 @@ router.post('/score_update', function(req, res){
 // over method
 router.post('/over_update', function(req, res){
     var ball = Number(req.body.ball);
-    console.log(ball);
+    // console.log(ball);
 
     try{
         switch(ball)
@@ -127,7 +127,7 @@ router.get("/retrivlast", function(req, res){
     }
     else
     {
-        console.log(data);
+        // console.log(data);
         res.send(data);
     }
 });  
