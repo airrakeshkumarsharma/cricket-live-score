@@ -10,7 +10,7 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-  body
+  body(onload='retriv_last_data()')
     // Side Navigation
     // Header
     header#myHeader.w3-container.w3-theme.w3-padding
@@ -20,7 +20,7 @@ html
     // Modal
     .w3-row-padding.w3-center.w3-margin-top
       .w3-third
-        .w3-card.w3-container(style='min-height:460px')
+        .w3-card.w3-container(style='min-height:460px;')
           h3 First innnig
           br
           i
@@ -29,12 +29,12 @@ html
           p
           p Team Details
       .w3-third
-        .w3-card.w3-container(style='min-height:460px')
+        .w3-card.w3-container(style='min-height:460px;')
           h3 Live Cricket score
           br
           i
             img.img-circle(src='data:image/png;base64,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', alt='Cinque Terre', width='100', height='100')
-          |            VS   
+          |     VS   
           i
             img.img-circle(src='data:image/png;base64,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', alt='Cinque Terre', width='100', height='100')
           br
@@ -47,12 +47,15 @@ html
             b RUN (not yet played) 
           p
             | IND : 
-            b  201-3 (12.5 Over) 
+            b#run  0 
+          p
+            | OVER : 
+            b#over  
           p
             button
               b To Know More
       .w3-third
-        .w3-card.w3-container(style='min-height:460px')
+        .w3-card.w3-container(style='min-height:460px;')
           h3 Second Inning
           br
           i
@@ -60,3 +63,31 @@ html
           p
           p
           p Team Details
+    script(type='text/javascript').
+      async function retrive_over(){
+      $.ajax({
+      url : 'retriveover', //over update url
+      type : 'get',
+      success: function(data){
+      // var data = JSON.stringify(data);
+      $("#over").html(data);
+      }
+      })
+      setTimeout(retriv_last_data, 3000)
+      }
+      async function retriv_last_data(){
+      $.ajax({
+      url : 'retrivlast', //over update url
+      type : 'get',
+      success: function(data){
+      var jsondata = JSON.stringify(data);
+      var docs = JSON.parse(jsondata);
+      $("#run").html(docs.total_run+ " (This ball "+ docs.newrun+" run)");
+      if(docs.newrun == 6){
+      var audio = new Audio('sound/hooray.mp3');
+      audio.play();
+      }
+      }
+      });
+      retrive_over();
+      }

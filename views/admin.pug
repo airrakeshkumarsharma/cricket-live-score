@@ -10,7 +10,7 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-  body
+  body(onload='retriv_last_data()')
     // Side Navigation
     // Header
     header#myHeader.w3-container.w3-theme.w3-padding
@@ -43,24 +43,37 @@ html
           p
             | TOSS : 
             b India(elected to bat) 
-            input(autocomplete='off', type='text', name='toss', placeholder='Who won toss')
-            button
-              b OK
           p
             | AUS : 
             b RUN (not yet played) 
-            input(autocomplete='off', type='text', name='toss', placeholder='AUS new score')
-            button
-              b OK
           p
             | IND : 
-            b  201-3 (12.5 Over) 
-            input(type='text', name='toss', autocomplete='off', placeholder='IND new score')
-            button
-              b OK
+            b#run  0 
+            button#scoreincrease(onclick='scoreincrease(0)')
+              b  0 
+            button#scoreincrease(onclick='scoreincrease(1)')
+              b  1 
+            button#scoreincrease(onclick='scoreincrease(2)')
+              b  2 
+            button#scoreincrease(onclick='scoreincrease(3)')
+              b  3 
+            button#scoreincrease(onclick='scoreincrease(4)')
+              b  4 
+            button#scoreincrease(onclick='scoreincrease(6)')
+              b  6 
+          #runupdate
           p
-            button
-              b To Know More
+          p
+            | OVER : 
+            b#over  
+            button#1b(onclick='overFuntion(0)')
+              b 1b
+            button#wide(onclick='overFuntion(-1)')
+              b wide
+            button#No_ball(onclick='overFuntion(-2)')
+              b No ball
+          #overupdate
+          p
       .w3-third
         .w3-card.w3-container(style='min-height:460px')
           h3 Second Inning
@@ -70,3 +83,54 @@ html
           p
           p
           p Team Details
+    // Script start without data validation
+    script(type='text/javascript').
+      function scoreincrease(scrore){
+      $.ajax({
+      url : 'score_update', //score update url
+      type : 'post',
+      data : { "score": scrore },
+      success: function(data){
+      // alert(data);
+      $("#runupdate").show(2000);
+      $("#runupdate").html(data);
+      $("#runupdate").hide(2000);
+      }
+      })
+      }
+      function overFuntion(ball){
+      $.ajax({
+      url : 'over_update', //over update url
+      type : 'post',
+      data : { "ball": ball },
+      success: function(data){
+      $("#overupdate").show(2000);
+      $("#overupdate").html(data);
+      $("#overupdate").hide(2000);
+      }
+      })
+      }
+      // script to retrive the data
+      function retrive_over(){
+      $.ajax({
+      url : 'retriveover', //over update url
+      type : 'get',
+      success: function(data){
+      // var data = JSON.stringify(data);
+      $("#over").html(data);
+      }
+      })
+      setTimeout(retriv_last_data, 3000)
+      }
+      function retriv_last_data(){
+      $.ajax({
+      url : 'retrivlast', //over update url
+      type : 'get',
+      success: function(data){
+      var jsondata = JSON.stringify(data);
+      var docs = JSON.parse(jsondata);
+      $("#run").html(docs.total_run+ " (This ball "+ docs.newrun+" run)");
+      }
+      });
+      retrive_over();
+      }
