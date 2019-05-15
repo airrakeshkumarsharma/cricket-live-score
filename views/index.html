@@ -55,7 +55,7 @@
     </div>
   </div>
   <script type="text/javascript">
-    function retrive_over(){
+   async function retrive_over(){
         $.ajax({
           url : 'retriveover', //over update url
           type : 'get',
@@ -67,7 +67,7 @@
         })
        setTimeout(retriv_last_data, 3000)
       }
-      function retriv_last_data(){
+    async function retriv_last_data(){
         $.ajax({
           url : 'retrivlast', //over update url
           type : 'get',
@@ -76,7 +76,8 @@
             var docs = JSON.parse(jsondata);
             $("#run").html(docs.total_run+ " (This ball "+ docs.newrun+" run)");
             if(docs.newrun == 6){
-              
+              var audio = new Audio('sound/hooray.mp3');
+              audio.play();
             }
 
 
